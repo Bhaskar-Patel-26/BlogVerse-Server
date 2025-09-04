@@ -4,6 +4,7 @@ import "dotenv/config";
 
 import ConnectDB from "./configs/db.js";
 import adminRouter from "./routes/adminRoutes.js";
+import blogRouter from "./routes/blogRoutes.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 app.use("/api/admin", adminRouter);
+app.use("/api/blog", blogRouter);
 
 // Start the server
 app.listen(PORT, () => {
