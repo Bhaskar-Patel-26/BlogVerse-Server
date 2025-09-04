@@ -90,6 +90,9 @@ export const deleteBlogById = async (req, res) => {
     const blogId = req.body.id;
     const blog = await Blog.findByIdAndDelete(blogId);
 
+    // delete all comments associated with the blog
+    await Comment.deleteMany({ blog: blogId });
+
     if (!blog) {
       return res
         .status(404)
