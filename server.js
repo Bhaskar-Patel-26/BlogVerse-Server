@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 
 import ConnectDB from "./configs/db.js";
+import adminRouter from "./routes/adminRoutes.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
+app.use("/api/admin", adminRouter);
 
 // Start the server
 app.listen(PORT, () => {
