@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import Blog from "../models/Blog.js";
+import Comment from "../models/Comment.js";
 
 export const adminLogin = (req, res) => {
     try {
@@ -9,7 +11,7 @@ export const adminLogin = (req, res) => {
         }
 
         const token = jwt.sign({email}, process.env.JWT_SECRET);
-        res.json({sucess: true, token});
+        res.json({success: true, token});
     } catch (error) {
         console.log(error);
         res.status(500).json({message: error.message});   
@@ -54,8 +56,8 @@ export const getDashboard = async (req, res) => {
 
 export const deleteCommentById = async (req, res) => {
   try {
-    const {Id} = req.body;
-    const comment = await Comment.findByIdAndDelete(Id);
+    const {id} = req.body;
+    const comment = await Comment.findByIdAndDelete(id);
 
     return res
       .status(200)
@@ -68,8 +70,8 @@ export const deleteCommentById = async (req, res) => {
 
 export const approveCommentById = async (req, res) => {
   try {
-    const {Id} = req.body;
-    const comment = await Comment.findByIdAndUpdate(Id, {isApproved: true});
+    const {id} = req.body;
+    const comment = await Comment.findByIdAndUpdate(id, {isApproved: true});
 
     return res
       .status(200)

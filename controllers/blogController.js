@@ -69,8 +69,8 @@ export const getAllBlogs = async (req, res) => {
 
 export const getBlogById = async (req, res) => {
   try {
-    const { blogId } = req.params;
-    const blog = await Blog.findById(blogId);
+    const { id } = req.params;
+    const blog = await Blog.findById(id);
 
     if (!blog) {
       return res
@@ -87,7 +87,7 @@ export const getBlogById = async (req, res) => {
 
 export const deleteBlogById = async (req, res) => {
   try {
-    const blogId = req.body.id;
+    const {blogId} = req.body;
     const blog = await Blog.findByIdAndDelete(blogId);
 
     // delete all comments associated with the blog
@@ -110,10 +110,8 @@ export const deleteBlogById = async (req, res) => {
 
 export const togglePublishBlog = async (req, res) => {
   try {
-    console.log(req.body);
     const { blogId } = req.body;
     const blog = await Blog.findById({ _id: blogId });
-
     if (!blog) {
       return res
         .status(404)
@@ -135,8 +133,8 @@ export const togglePublishBlog = async (req, res) => {
 export const addComment = async (req, res) => {
   try {
     const { blog, name, content } = req.body;
-    const Comment = await Comment.create({ blog, name, content,});
-    return res.status(200).json({ success: true, message: "Comment added successfully for review", Comment });
+    const comment = await Comment.create({ blog, name, content,});
+    return res.status(200).json({ success: true, message: "Comment added successfully for review", comment });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ success: false, message: error.message });
@@ -145,8 +143,8 @@ export const addComment = async (req, res) => {
 
 export const getBlogComments = async (req, res) => {
   try {
-    const { blogId } = req.body;
-    const Comments = await Comment.find({ blog: blogId, isApproved: true }).sort({ createdAt: -1 });
+    const { id } = req.params;
+    const Comments = await Comment.find({ blog: id, isApproved: true }).sort({ createdAt: -1 });
     return res.status(200).json({ success: true, Comments });
   } catch (error) {
     console.log(error);
